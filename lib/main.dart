@@ -35,7 +35,7 @@ class HomePage extends StatelessWidget {
             child: SizedBox(height: AppBar().preferredSize.height,child: Image.network('https://img.pngio.com/open-pokemon-logo-png-2000_736.png')),
           ),
       ),
-      body: LoginScreen()
+      body: LoginScreen(),
 
       );
 
