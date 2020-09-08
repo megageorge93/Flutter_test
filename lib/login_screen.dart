@@ -5,7 +5,6 @@ import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_test_proj/widget/keyboard_size_widget.dart';
 
-
 import 'widget/keyboard_size_widget.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -23,6 +22,7 @@ class LoginScreen extends StatefulWidget {
 class LoginScreenState extends State<LoginScreen> {
   LoginScreenState(int _counter){ this._counter=_counter;}
   int _counter;
+  bool _isClicked = false;
   bool _autoValidate = false;
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
@@ -55,12 +55,13 @@ class LoginScreenState extends State<LoginScreen> {
           key: formKey,
           autovalidate: _autoValidate,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment:  MainAxisAlignment.center,
             children: <Widget>[
               Padding(
-                padding:  EdgeInsets.only(top: 10.0),
+                padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
                 child: TextFormField(
                   // ignore: deprecated_member_use
+
                   inputFormatters: [new WhitelistingTextInputFormatter(RegExp("[a-zA-Z]")),],
                   controller: familyNameController,
                   validator: (value) => nameValidator(value),
@@ -75,7 +76,7 @@ class LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
                 child: TextFormField(
                   // ignore: deprecated_member_use
                   inputFormatters: [new WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),],
@@ -92,7 +93,7 @@ class LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
                 child: TextFormField(
                   controller: emailController,
                   validator: (email) => EmailValidator.validate(email)
@@ -111,7 +112,7 @@ class LoginScreenState extends State<LoginScreen> {
               ),
               FlatButton(
                 child: Text('Register'),
-                onPressed: () => doRegister(context),
+                onPressed: () { doRegister(context); FocusScope.of(context).requestFocus(new FocusNode());},
 
               ),
             ],
@@ -157,6 +158,14 @@ class LoginScreenState extends State<LoginScreen> {
       return 'Can\'t be less than 2 letters length';
     }
     return null;
+  }
+
+  lockButton(){
+    _isClicked = true;
+  }
+
+  unlockButton(){
+    _isClicked = false;
   }
 }
 

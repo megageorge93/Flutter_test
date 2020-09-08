@@ -25,23 +25,25 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return KeyboardSizeProvider(
       smallSize: 500.0,
-      child: Scaffold(
-
-        appBar: AppBar(
-            automaticallyImplyLeading: false,
-            leading: IconButton(icon: Icon(Icons.arrow_back),onPressed: null,),
-          centerTitle: true,
-          title: DecoratedBox(
-              decoration: BoxDecoration(
-                  border: Border.all(),
-                  borderRadius: BorderRadius.circular(20)
+      child: GestureDetector(onTap: () {
+        FocusScope.of(context).requestFocus(new FocusNode());},
+        child: Scaffold(
+          appBar: AppBar(
+              automaticallyImplyLeading: false,
+              leading: IconButton(icon: Icon(Icons.arrow_back),onPressed: null,),
+            centerTitle: true,
+            title: DecoratedBox(
+                decoration: BoxDecoration(
+                    border: Border.all(),
+                    borderRadius: BorderRadius.circular(20)
+                ),
+                child: SizedBox(height: AppBar().preferredSize.height,child: Image.network('https://img.pngio.com/open-pokemon-logo-png-2000_736.png')),
               ),
-              child: SizedBox(height: AppBar().preferredSize.height,child: Image.network('https://img.pngio.com/open-pokemon-logo-png-2000_736.png')),
-            ),
-        ),
-        body: LoginScreen(counter: _counter,),
+          ),
+          body: LoginScreen(counter: _counter,),
 
-        ),
+          ),
+      ),
     );
 
   }
