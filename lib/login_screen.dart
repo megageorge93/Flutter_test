@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,8 +24,9 @@ class LoginScreen extends StatefulWidget {
 class LoginScreenState extends State<LoginScreen> {
   LoginScreenState(int _counter){ this._counter=_counter;}
   int _counter;
-  bool _isClicked = false;
+  bool _isBlocked = false;
   bool _autoValidate = false;
+  final timer = Duration(seconds: 5);
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final familyNameController = TextEditingController();
@@ -46,6 +49,7 @@ class LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     // return Scaffold(
     //     body: SingleChildScrollView(
     //final bottom = MediaQuery.of(context).viewInsets.bottom;
@@ -110,10 +114,13 @@ class LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              FlatButton(
-                child: Text('Register'),
-                onPressed: () { doRegister(context); FocusScope.of(context).requestFocus(new FocusNode());},
+              AbsorbPointer(
+                absorbing: _isBlocked,
+                child: FlatButton(
+                  child: Text('Register'),
+                  onPressed: () { doRegister(context); FocusScope.of(context).requestFocus(new FocusNode());},
 
+                ),
               ),
             ],
           ),
@@ -128,6 +135,10 @@ class LoginScreenState extends State<LoginScreen> {
     print(emailController.text);
     bool validate = formKey.currentState.validate();
     if (validate) {
+      lockButton();
+      Timer(Duration(seconds: 5), () {
+        unlockButton();
+      });
       try {
         var result = await http.post(
             'https://tas.trans-stat.com/api/portal/sde-registration',
@@ -161,11 +172,11 @@ class LoginScreenState extends State<LoginScreen> {
   }
 
   lockButton(){
-    _isClicked = true;
+    _isBlocked = true;
   }
 
   unlockButton(){
-    _isClicked = false;
+    _isBlocked = false;
   }
 }
 
